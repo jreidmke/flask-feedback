@@ -21,7 +21,20 @@ toolbar = DebugToolbarExtension(app)
 def redirect_register():
     return redirect('/register')
 
-@app.route('/register')
-def show_register_form():
+@app.route('/register', methods=["GET", "POST"])
+def register_user():
     form = RegisterForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+        user = User.register(username=username, password=password, email=email, first_name=first_name, last_name=last_name)
+        db.session.add(user)
+        db.session.commit()
+        # session['user_id'] = user.id
+        return redirect('/')
+
     return render_template('register.html', form=form)
