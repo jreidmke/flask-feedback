@@ -1,17 +1,43 @@
 {% extends 'base.html' %}
 
-{% block title %} Login {% endblock %}
+{% block title %} Register {% endblock %}
 
 {% block content %}
 <div class="container">
 
-    {% for msg in get_flashed_messages() %}
-        <p>{{ msg }}</p>
-    {% endfor %}
+
 
     <h1 class="display-4">Login</h1>
 
-        <form method="POST">
+    <form method="POST">
+
+        {{form.hidden_tag()}}
+
+        <table class="table">
+            <tbody>
+                {% for field in form if field.widget.input_type != 'hidden' %}
+
+                    <tr>
+                        <td><b>{{field.label}}</b></td>
+                        <td>{{field}}</td>
+                    </tr>
+
+                    {% for error in field.errors %}
+                        <h4>{{error}}</h4>
+                    {% endfor %}
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-outline-info btn-large btn-block" >Register</button>
+    </form>
+</div>
+
+{% endblock %}
+
+
+        <!-- <form method="POST">
 
             {{form.hidden_tag()}}
 
@@ -29,9 +55,6 @@
                 {% endfor %}
 
 
-                <button type="submit" class="btn btn-info btn-large" style="width: 25rem;">Login</button>
+                <button type="submit" class="btn btn-info btn-large" style="width: 25rem;">Register</button>
             </form>
-</div>
-
-
-{% endblock %}
+</div> -->

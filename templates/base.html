@@ -28,6 +28,10 @@
           </ul>
         </div>
       </nav>
+      <br>
+      {% for msg in get_flashed_messages() %}
+          <p class="text-primary bg-light text-center"><b>{{ msg }}</b></p>
+      {% endfor %}
 
     {% block content %} {% endblock %}
 
