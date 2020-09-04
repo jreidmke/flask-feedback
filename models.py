@@ -27,3 +27,14 @@ class User(db.Model):
         hashword_utf8 = hashword.decode('utf8')
 
         return cls(username = username, password = hashword_utf8, email = email, first_name = first_name, last_name = last_name)
+
+    @classmethod
+    def authenticate(cls, username, password):
+        """Returns user object if password validated."""
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and bc.check_password_hash(user.password, password):
+            return user
+        else:
+            return False
