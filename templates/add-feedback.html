@@ -7,7 +7,7 @@
 
 
 
-    <h1 class="display-4">Login</h1>
+    <h1 class="display-4">Write Your Feedback</h1>
 
     <form method="POST">
 
@@ -17,10 +17,17 @@
             <tbody>
                 {% for field in form if field.widget.input_type != 'hidden' %}
 
+                <!-- {% if field.label == 'Content' %}
+                    <tr>
+                        <td><b>{{field.label}}</b></td>
+                        <td style="height: 500px;">{{field}}</td>
+                    </tr>
+                {% else %} -->
                     <tr>
                         <td><b>{{field.label}}</b></td>
                         <td>{{field}}</td>
                     </tr>
+                <!-- {% endif %} -->
 
                     {% for error in field.errors %}
                         <h4>{{error}}</h4>

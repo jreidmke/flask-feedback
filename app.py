@@ -94,14 +94,14 @@ def delete_user(username):
 
 #Make Post
 
-@app.route('/users/<username>/feedback/add')
+@app.route('/users/<username>/feedback/add', methods=["GET", "POST"])
 def add_feedback(username):
     if 'user_id' not in session:
         flash('Please login first')
         return redirect('/login')
     user = User.query.get(username)
     form = FeedbackForm()
-    return render_template('add-feeback.html')
+    return render_template('add-feedback.html', form = form)
 
 
 #Edit Post
