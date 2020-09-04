@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <h1 class="display-4">Sign Up</h1>
+
+
+        <form method="POST">
+
+            {{form.hidden_tag()}}
+            <!-- <table>
+                <thead></thead>
+                <tbody></tbody>
+                {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <td>{{field.label}}</td>
+                    <td>{{field}}</td>
+                </tr>
+
+                {% for error in field.errors %}
+                <td>{{error}}</td>
+                {% endfor %}
+
+
+            </table>
+            {% endfor %}
+            <button type="submit" class="btn btn-info btn-large" style="width: 25rem;">Register</button>
+        </form> -->
+
+                {% for field in form if field.widget.input_type != 'hidden' %}
+
+                <h4>
+                    {{field.label}}
+                    {{field}}
+
+                    {% for error in field.errors %}
+                    {{error}}
+                    {% endfor %}
+
+                </h4>
+                {% endfor %}
+
+
+                <button type="submit" class="btn btn-info btn-large" style="width: 25rem;">Register</button>
+            </form>
+</div>
+
+
+{% endblock %}
