@@ -75,3 +75,18 @@ def logout_user():
     session.pop('user_id')
     flash(f'Goodbye {name}')
     return redirect('/')
+
+#Delete user
+@app.route('/users/<username>/delete', methods=["POST"])
+def delete_user(username):
+    if 'user_id' not in session:
+        flash('Please login first')
+        return redirect('/login')
+
+    name = session['user_id']
+    session.pop('user_id')
+    user = User.query.get(username)
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'Goodbye {name}')
+    return redirect('/')

@@ -18,7 +18,7 @@ class User(db.Model):
     first_name = db.Column(db.String(30), nullable = False)
     last_name = db.Column(db.String(30), nullable = False)
 
-    feedbacks = db.relationship('Feedback', cascade='all, delete', backref=user)
+    feedbacks = db.relationship('Feedback', cascade='all, delete', backref='user')
 
     @classmethod
     def register(cls, username, password, email, first_name, last_name):
@@ -45,7 +45,7 @@ class Feedback(db.Model):
 
     __tablename__ = 'feedback'
 
-    id = db.Column(db.Integer, primary_key = True, autoincriment = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable = False)
     content = db.Column(db.String, nullable = False)
-    username = db.Column(db.String, db.ForiegnKey('users.username', ondelete='cascade'))
+    username = db.Column(db.String, db.ForeignKey('users.username', ondelete='cascade'))
