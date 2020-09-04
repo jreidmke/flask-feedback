@@ -33,19 +33,34 @@
         <div class="col-2"></div>
 
         <div class="col-4">
-            <button class="btn btn-outline-success btn-large btn-block">Add Feedback</button>
 
-            <ul>
-                
-            </ul>
+            <!-- <button class="btn " >Add New Feedback</button> -->
+            <a href="/user/{{user.username}}/feedback/add" class="btn btn-outline-success btn-large btn-block">Add New Feedback</a>
+
+            {% for fb in feedback %}
+            <div class="card my-1 border border-info">
+                <div class="card-header">
+                  {{fb.title}}
+                </div>
+                <div class="card-body">
+                  <p class="card-text">{{fb.content[:100] + '...'}}</p>
+
+
+                  <table>
+                      <tr>
+                          <td><a href="/feedback/{{fb.id}}/update" class="btn btn-primary">Edit Post</a></td>
+                          <td><form action="/feedback/{{fb.id}}/delete" method="POST">
+                            <button class="btn btn-outline-danger ml-5">Delete</button>
+                        </form></td>
+                      </tr>
+                  </table>
+
+                </div>
+              </div>
+              {% endfor %}
 
         </div>
-
     </div>
-
-
-
 </div>
-
 
 {% endblock %}
