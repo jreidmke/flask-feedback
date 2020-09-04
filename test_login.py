@@ -30,4 +30,4 @@ class RegisterUserTestCase(TestCase):
             resp = client.post('/login', data = self.data, follow_redirects=True)
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
-            # self.assertIn(f'Welcome back {self.first_name}!', html)
+            self.assertIn(f'Welcome back {self.first_name}!', html)
