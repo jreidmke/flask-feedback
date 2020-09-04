@@ -53,13 +53,25 @@ def login_user():
         password = form.password.data
         user = User.authenticate(username, password)
         if user:
-            # flash(f'Welcome back {user.first_name}!')
+            flash(f'Welcome back {user.first_name}!')
             session['user_id'] = user.username
-            return redirect('/secret')
+            return redirect(f'/users/{user.username}')
         else:
             form.username.errors=["Invalid Info"]
     return render_template('login.html', form=form)
 
-@app.route('/secret')
-def show_secret():
-    return render_template('secret.html')
+@app.route('/users/<username>')
+def show_secret(username):
+    if 'user_id' not in session:
+        flash('Please login first')
+        return redirect('/login')
+    user = User.query.get(username)
+    return render_template('user-detail.html', user=user)
+
+#Logout User
+@app.route('/logout', methods=["POST"])
+def logout_user():
+    name = session['user_id']
+    session.pop('user_id')
+    flash(f'Goodbye {name}')
+    return redirect('/')
