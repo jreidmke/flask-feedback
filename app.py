@@ -1,7 +1,7 @@
 from flask import Flask, request, session, render_template, redirect, flash, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, User
-from forms import RegisterForm, LoginForm
+from models import db, connect_db, User, Feedback
+from forms import RegisterForm, LoginForm, FeedbackForm
 
 
 app = Flask(__name__)
@@ -66,7 +66,8 @@ def show_secret(username):
         flash('Please login first')
         return redirect('/login')
     user = User.query.get(username)
-    return render_template('user-detail.html', user=user)
+    feedback = user.feedback
+    return render_template('user-detail.html', user=user, feedback=feedback)
 
 #Logout User
 @app.route('/logout', methods=["POST"])
@@ -90,3 +91,31 @@ def delete_user(username):
     db.session.commit()
     flash(f'Goodbye {name}')
     return redirect('/')
+
+#Make Post
+
+@app.route('/users/<username>/feedback/add')
+def add_feedback(username):
+    if 'user_id' not in session:
+        flash('Please login first')
+        return redirect('/login')
+    user = User.query.get(username)
+    form = FeedbackForm()
+    return render_template('add-feeback.html')
+
+
+#Edit Post
+
+#Delete Post
+@app.route('/feedback/<int:feedback_id>/delete', methods=["POST"])
+def delete_feedback(feedback_id):
+    if 'user_id' not in session:
+        flash('Please login first')
+        return redirect('/login')
+    fb = Feedback.query.get(feedback_id)
+    fb_title = fb.title
+    username = fb.user.username
+    db.session.delete(fb)
+    db.session.commit()
+    flash(f'{fb_title} Deleted')
+    return redirect(f'/users/{username}')
