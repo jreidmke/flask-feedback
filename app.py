@@ -72,6 +72,9 @@ def show_secret(username):
 #Logout User
 @app.route('/logout', methods=["POST"])
 def logout_user():
+    if 'user_id' not in session:
+        flash('Please login first')
+        return redirect('/login')
     name = session['user_id']
     session.pop('user_id')
     flash(f'Goodbye {name}')
@@ -101,10 +104,38 @@ def add_feedback(username):
         return redirect('/login')
     user = User.query.get(username)
     form = FeedbackForm()
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+        username = user.username
+        fb = Feedback(title=title, content=content, username=username)
+        db.session.add(fb)
+        db.session.commit()
+        flash(f'New post: {title} by {username}')
+        return redirect(f'/users/{username}')
     return render_template('add-feedback.html', form = form)
 
 
 #Edit Post
+@app.route('/feedback/<feedback_id>/update', methods=["GET", "POST"])
+def edit_feedback(feedback_id):
+    if 'user_id' not in session:
+        flash('Please login first')
+        return redirect('/login')
+    form = FeedbackForm()
+    if form.validate_on_submit():
+        fb = Feedback.query.get(feedback_id)
+        fb.title = form.title.data
+        fb.content = form.content.data
+        fb.username = session['user_id']
+        db.session.add(fb)
+        db.session.commit()
+        return redirect(f'/users/{fb.username}')
+    return render_template('edit-feedback.html', form = form)
+
+
+
+
 
 #Delete Post
 @app.route('/feedback/<int:feedback_id>/delete', methods=["POST"])
