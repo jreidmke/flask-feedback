@@ -19,7 +19,8 @@ toolbar = DebugToolbarExtension(app)
 
 @app.route('/')
 def redirect_register():
-    return redirect('/register')
+    feedback = Feedback.query.all()
+    return render_template('home.html', feedback=feedback)
 
 #Register User
 
