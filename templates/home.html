@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+
+        {% for fb in feedback %}
+        <div class="card my-1 border border-info">
+            <div class="card-header"><h1 class="display-4">
+                {{fb.title}}
+            </h1>
+            </div>
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">{{'by ' + fb.username}}</h6>
+                <p class="card-text">{{fb.content[:500] + '...'}}</p>
+
+        </div>
+        </div>
+        {% endfor %}
+</div>
+
+  {% endblock %}
