@@ -66,6 +66,10 @@ def show_secret(username):
     if 'user_id' not in session:
         flash('Please login first')
         return redirect('/login')
+    name = session['user_id']
+    if name != username:
+        flash('You can\'t see this user\'s page')
+        return redirect('/')
     user = User.query.get(username)
     feedback = user.feedback
     return render_template('user-detail.html', user=user, feedback=feedback)
@@ -87,8 +91,10 @@ def delete_user(username):
     if 'user_id' not in session:
         flash('Please login first')
         return redirect('/login')
-
     name = session['user_id']
+    if name != username:
+        flash('You can\'t delete this user')
+        return redirect('/')
     session.pop('user_id')
     user = User.query.get(username)
     db.session.delete(user)
